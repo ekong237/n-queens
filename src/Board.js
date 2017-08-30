@@ -142,12 +142,38 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var board = this.rows();
+      var num = this.get('n');
+      var columnIndex = majorDiagonalColumnIndexAtFirstRow;
+      var rowIndex = 0;
+      var diagonal = [];
+      while (columnIndex < num && rowIndex < num) {
+        diagonal.push(board[rowIndex][columnIndex]);
+        rowIndex++;
+        columnIndex++;
+      }
+      
+      var count = 0;
+      diagonal.forEach(function (item) {
+        if (item === 1) {
+          count++;
+        }
+      });
+      
+      return count > 1;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      var board = this.rows();
+      var num = this.get('n');
+      
+      for (var i = -num + 1; i < num; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
@@ -157,12 +183,36 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var board = this.rows();
+      var num = this.get('n');
+      var columnIndex = minorDiagonalColumnIndexAtFirstRow;
+      var rowIndex = 0;      
+      var diagonal = [];
+      while (columnIndex >= 0 && rowIndex < num) {
+        diagonal.push(board[rowIndex++][columnIndex--]);
+      }
+      
+      var count = 0;
+      diagonal.forEach(function (item) {
+        if (item === 1) {
+          count++;
+        }
+      });
+      
+      return count > 1; 
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      var num = this.get('n');
+      
+      for (var i = 0; i < num * 2; i++) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      
+      return false; 
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
